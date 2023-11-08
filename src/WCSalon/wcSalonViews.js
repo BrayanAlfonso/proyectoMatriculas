@@ -4,8 +4,15 @@ import stylesScss from './wcSalonStyle';
 export class SalonesViews extends LitElement {
   constructor() {
     super();
-    this.salones = [];
     this.salonIdActual = null;
+
+  }
+
+
+  static get properties() {
+    return {
+      salones: { type: Array },
+    }
   }
 
   static get styles() {

@@ -13,19 +13,22 @@ export class WCMainProfesoresView extends LitElement {
         this.materia = '';
         this.jornada = '';
         this.curso = '';
+        this.main=''
+
     }
 
     static get properties() {
         return {
             nombre: { type: String },
             documento: { type: String },
-            profesores:{
-                type: Array
-            },
+            profesores:{type: Array},
+            salones:{type: Array},
+            cursos:{type: Array},
             edad: { type: String },
             materia: { type: String },
             jornada: { type: String },
             curso: { type: String },
+            main:{type:String}
         }
     }
 
@@ -41,13 +44,39 @@ export class WCMainProfesoresView extends LitElement {
         return[WCMainProfesoresStyle]
     }
 
-    mostrarCursos(){
-        let main = this.shadowRoot.querySelector('#main')
-        main.innerHTML=`<cursos-views></cursos-views>`
+    mostrarCursos(x){
+        if(x){
+            let main = this.shadowRoot.getElementById("main")
+            main.innerHTML=``
+            this.main= html`<cursos-views .cursos="${this.cursos}" .profesores="${this.profesores}" .salones="${this.salones}"></cursos-views>`
+
+        }else{
+            this.main= html``
+        }
+        return this.main
     }
-    mostrarSalones(){
-        let main = this.shadowRoot.querySelector('#main')
-        main.innerHTML=`<salones-views></salones-views>`
+
+    mostrarSalones(x){
+        if(x){
+            let main = this.shadowRoot.getElementById("main")
+            main.innerHTML=``
+            this.main= html`<salones-views .salones="${this.salones}"></salones-views>`
+
+        }else{
+            this.main= html``
+        }
+        return this.main
+    }
+    mostrarMainProfesores(x){
+        if(x){
+            let main = this.shadowRoot.getElementById("main")
+            main.innerHTML=``
+            this.main = html`<wc-mainprofesoresview .profesores="${this.profesores}" .salones="${this.salones}" .cursos="${this.cursos}"></wc-mainprofesoresview>`
+        }else{
+            this.main=html``
+        }
+        return this.main
+        
     }
 
     cargarProfesores() {
@@ -57,6 +86,7 @@ export class WCMainProfesoresView extends LitElement {
 
     guardarProfesores() {
         localStorage.setItem('profesores', JSON.stringify(this.profesores));
+        localStorage.setItem('salones', JSON.stringify(this.salones));
     }
 
     registrarProfesor() {
@@ -70,6 +100,7 @@ export class WCMainProfesoresView extends LitElement {
                 curso: this.curso
             };
             this.profesores.push(nuevoProfesor);
+            console.log(this.profesores,this.salones)
             this.guardarProfesores();
 
             this.documento = '';
@@ -196,19 +227,25 @@ export class WCMainProfesoresView extends LitElement {
         };
     }
 
+
+
     render() {
         return html`
         <style>
             @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
             @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
         </style>
-        <nav>
+        <nav id="nav">
             <ul class="d-flex list-unstyled">
-                <li class="mx-3"><button class="btn bg-blue1 text-white  mt-1 p-3" @click=${(e)=>this.mostrarSalones()}>Registrar salon</button></li>
-                <li class="mx-3"><button class="btn bg-blue1 text-white  mt-1 p-3" @click=${(e)=>this.mostrarCursos()}>Registrar curso</button></li>
+                <li class="mx-3"><button class="btn bg-blue1 text-white  mt-1 p-3" @click=${(e)=>this.mostrarSalones(1)}>Registrar salon</button></li>
+                <li class="mx-3"><button class="btn bg-blue1 text-white  mt-1 p-3" @click=${(e)=>this.mostrarCursos(1)}>Registrar curso</button></li>
+                <li class="mx-3"><button class="btn bg-blue1 text-white  mt-1 p-3" @click=${(e)=>this.mostrarMainProfesores(1)}>Profesores</button></li>
             </ul>
         </nav>
-<div class="d-flex flex-column justify-content-center aling-items-center m-100" id="main">
+        <div class="d-flex flex-column justify-content-center aling-items-center m-100">
+            ${this.main}
+        </div>
+        <div class="d-flex flex-column justify-content-center aling-items-center m-100" id="main">
     <div class=" d-flex flex-column ">
         <!-- Sección a la derecha -->
         <div class="container-fluid">

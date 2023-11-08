@@ -24,6 +24,12 @@ export class WCLoginView extends LitElement{
              profesores:{
                 type: Array
             },
+            salones:{
+                type: Array
+            },
+            cursos:{
+                type: Array
+            },
             main:{
                 type:String
             }
@@ -44,7 +50,7 @@ export class WCLoginView extends LitElement{
         if(x){
             let login=this.shadowRoot.querySelector("#login")
             login.innerHTML = '';
-            this.main = html`<wc-mainprofesoresview .profesores="${this.profesores}"></wc-mainprofesoresview>`
+            this.main = html`<wc-mainprofesoresview .profesores="${this.profesores}" .salones="${this.salones}" .cursos="${this.cursos}"></wc-mainprofesoresview>`
         }else{
             this.main=html``
         }

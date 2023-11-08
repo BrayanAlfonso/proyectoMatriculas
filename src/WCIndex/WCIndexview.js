@@ -22,7 +22,40 @@ export class WCIndexview extends LitElement{
                 curso: '4',
                 contraseña: 'Brayan123'
                 }
-            ]
+            ],
+            acudientes:[
+                {
+                    documento:"12345678",
+                    nombre:"Carlos",
+                    parentesco:"Padre",
+                    edad:"40",
+                    telefono:"32244588"
+                }
+            ],
+            salones:[
+                {
+                    ID:"1",
+                    piso:"4",
+                    estado:"activo"
+                }
+            ] ,
+            cursos: [
+                { ID: 1,
+                   PROFESOR: 'Juan Pérez', 
+                   CAPACIDAD: '30', 
+                   JORNADA: 'Mañana',
+                    SALON: '101' },
+                { ID: 2, 
+                  PROFESOR: 'Ana López',
+                  CAPACIDAD: '30',
+                    JORNADA: 'Tarde', 
+                    SALON: '201' },
+                { ID: 3, 
+                  PROFESOR: 'Juan',
+                  CAPACIDAD: '30',
+                    JORNADA: 'Mañana', 
+                    SALON: '301' }
+              ]
         }
         this.mostrarCards(1)
         
@@ -113,7 +146,7 @@ export class WCIndexview extends LitElement{
 
     mostrarLogin(x){
         if(x){
-            this.main = html `<wc-loginview class="w-100" .profesores="${this.arreglos.Profesores}"></wc-loginview>`
+            this.main = html `<wc-loginview class="w-100" .salones="${this.arreglos.salones}" .profesores="${this.arreglos.Profesores}" .cursos="${this.arreglos.cursos}"></wc-loginview>`
         }else{
             this.main=html``
         }
@@ -123,7 +156,7 @@ export class WCIndexview extends LitElement{
 
     mostrarAcudiente(x){
         if(x){
-            this.main = html `<my-acudiente></my-acudiente>`
+            this.main = html `<my-acudiente .acudientes="${this.arreglos.acudientes}"></my-acudiente>`
         }else{
             this.main=html``
         }

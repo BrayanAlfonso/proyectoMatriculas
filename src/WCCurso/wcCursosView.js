@@ -4,20 +4,19 @@ import stylesScss from './wcCursosStyle';
 export class wcCursosView extends LitElement {
   constructor() {
     super();
-    this.cursos = [
-      { ID: 1,
-         PROFESOR: 'Juan Pérez', 
-         CAPACIDAD: '30', 
-         JORNADA: 'Mañana',
-          SALON: '101' },
-      { ID: 2, 
-        PROFESOR: 'Ana López',
-        CAPACIDAD: '30',
-          JORNADA: 'Tarde', 
-          SALON: '201' }
-    ];
     this.cursoIdActual = null; 
   }
+
+  
+  static get properties() {
+    return {
+      cursos: { type: Array },
+      profesores: { type: Array },
+      salones: { type: Array },
+    }
+  }
+
+
   saveCursosToLocalStorage(cursos) {
     localStorage.setItem('cursos', JSON.stringify(cursos));
   }
@@ -78,7 +77,13 @@ export class wcCursosView extends LitElement {
             <div class="modal-body">
               <div class="d-flex flex-column">
                 <label for="profesor">Profesor:</label>
-                <input class=" p-2 border-10 border-1" id="profesor" name="profesor" placeholder="profesor">
+                <select class=" p-2 border-10 border-1" id="profesor" name="profesor" placeholder="profesor">
+                ${this.profesores.map(profe=>
+                  html`
+                  <option value="${profe.documento}">${profe.nombre}</option>
+                  `
+                  )}
+                </select>
               </div>
               <div class="d-flex flex-column">
                 <label for="capacidad">Capacidad:</label>
