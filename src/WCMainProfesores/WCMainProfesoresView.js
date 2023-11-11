@@ -62,7 +62,7 @@ export class WCMainProfesoresView extends LitElement {
         if(x){
             let main = this.shadowRoot.getElementById("main")
             main.innerHTML=``
-            this.main= html`<salones-views .salones="${this.salones}" .profesores="${this.profesores}"></salones-views>`
+            this.main= html`<salones-views .salones="${this.salones}"></salones-views>`
 
         }else{
             this.main= html``

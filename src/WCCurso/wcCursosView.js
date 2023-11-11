@@ -17,6 +17,17 @@ export class wcCursosView extends LitElement {
   }
 
 
+
+  
+  static get properties() {
+    return {
+      cursos: { type: Array },
+      profesores: { type: Array },
+      salones: { type: Array },
+    }
+  }
+
+
   saveCursosToLocalStorage(cursos) {
     localStorage.setItem('cursos', JSON.stringify(cursos));
   }
