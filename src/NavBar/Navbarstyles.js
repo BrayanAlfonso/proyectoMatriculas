@@ -105,6 +105,4 @@ export default css`
     background-color:gray;
 }
 
-
-
 `

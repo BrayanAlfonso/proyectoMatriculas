@@ -1,12 +1,11 @@
 import { LitElement, html } from "lit-element";
-import WCACudienteStyle from "../WCAcudiente/WCACudienteStyle";
+import WCACudienteStyle from "./WCACudienteStyle";
 
 
 export class WCACudienteview extends LitElement {
 
   constructor() {
     super();
-    this.acudientes = []; 
     this.documento = '';
     this.nombre = '';
     this.parentesco = '';
@@ -70,7 +69,7 @@ export class WCACudienteview extends LitElement {
     let nombre = this.shadowRoot.querySelector('#nombreActualizar').value
     let parentesco = this.shadowRoot.querySelector('#parentescoActulizar').value
     let edad = this.shadowRoot.querySelector('#edadActualizar').value
-    let telefono = this.shadowRoot.querySelector('#telefonoActualizar').value
+    let telefono = this.shadowRoot.querySelector('#').value
 
     console.log(documento, nombre,parentesco,edad,telefono)
 
@@ -177,7 +176,7 @@ render() {
 
     <div class="bg-light vw-100 vh-100 d-flex">
 
-        <div class="col m-5">
+        <div class="col m-5 p-5">
             <button
                 id="botonAbrirModal"
                 class="btn bg-blue1 text-white  mt-1 p-3>"
@@ -185,7 +184,7 @@ render() {
                 Nueva acudiente<i class="fas fa-plus fa-beat-fade"></i>
             </button>
             <div class="modal" id="modalRegistro" tabindex="-1" role="dialog" style="display: none;">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered bg-transparent" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Formulario de Registro</h5>
@@ -246,7 +245,7 @@ render() {
                             <td><button class="btn btn-danger" @click="${() => this.eliminarAcudiente(acudiente)}">Eliminar</button></td>
                         </tr>
                         <div class="modal" id="modalActualizar" tabindex="-1" role="dialog" style="display: none;">
-                            <div class="modal-dialog" role="document">
+                            <div class="modal-dialog modal-dialog-centered bg-transparent" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Formulario de Actualización De Acudiente</h5>

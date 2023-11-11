@@ -1,6 +1,9 @@
 import { LitElement, html } from "lit-element";
 import WCLoginStyle from "./WCLoginStyle";
 
+import { WCMainProfesoresView } from "../WCMainProfesores/WCMainProfesoresView";
+import { NavBar } from "../navbar/navbar";
+
 
 
 
@@ -24,6 +27,12 @@ export class WCLoginView extends LitElement{
              profesores:{
                 type: Array
             },
+            salones:{
+                type: Array
+            },
+            cursos:{
+                type: Array
+            },
             main:{
                 type:String
             }
@@ -32,7 +41,8 @@ export class WCLoginView extends LitElement{
 
     static get scopedElements(){
         return {
-            "wc-mainprofesoresview":WCMainProfesoresView,
+            "nav-bar":NavBar,
+
         };
     }
 
@@ -40,11 +50,14 @@ export class WCLoginView extends LitElement{
         return[WCLoginStyle]
     }
 
-    mostrarMainProfesores(x){
+    mostrarMain(x){
         if(x){
             let login=this.shadowRoot.querySelector("#login")
             login.innerHTML = '';
-            this.main = html`<wc-mainprofesoresview .profesores="${this.profesores}"></wc-mainprofesoresview>`
+            let loginContent=this.shadowRoot.getElementById("login-content")
+            loginContent.classList=[]
+            this.main = html`
+            <nav-bar .profesores="${this.profesores}" .salones="${this.salones}" .cursos="${this.cursos}"></nav-bar>`
         }else{
             this.main=html``
         }
@@ -72,7 +85,7 @@ export class WCLoginView extends LitElement{
             if(credenciales==null || credenciales == undefined){
                 alert("credenciales de acceso incorrectas")
             }else{
-                this.mostrarMainProfesores(1)
+                this.mostrarMain(1)
             }
             
 
@@ -94,7 +107,8 @@ export class WCLoginView extends LitElement{
         @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
         @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
         </style>
-    <div id="login">
+<div class="d-flex justify-content-center align-items-center h-100" id="login-content">
+    <div id="login" class="w-100">
         <div class="container position-relative d-flex justify-content-center aling-items-center w-75 bg-light container-border-rounded p-5" >
             <div class="position-absolute bottom-50 start-50 translate-middle z-index-1"  ><i class="fas fa-user fa-5x bg-icon p-5 rounded-circle bg-blue1" style="color:#ffff"></i></div>
             <div class="container border border-0 border-20  bg-whiteTransparent position-relative w-100">
@@ -118,7 +132,9 @@ export class WCLoginView extends LitElement{
             </div> 
         </div>
     </div>
-        ${this.main}
+    ${this.main}
+</div>
+        
         `
     }
 }

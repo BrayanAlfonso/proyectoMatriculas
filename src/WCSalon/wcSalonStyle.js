@@ -1,214 +1,108 @@
 import { css } from "lit-element";
 
 export default css`
-/* Estilos generales */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
+.border-content3-01{
+  background-color: White;
+  border: 4px;
+  border-color: #898888;
+  border-style: solid;
+  border-radius: 5px; 
 }
 
-h1 {
-  color: #333;
+.input-1{
+  border: 2px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 10px; 
+}
+.border-content3{
+  background-color: White;
+  border: 4px;
+  border-color: #898888;
+  border-style: solid;
+  border-radius: 5px; 
+}
+.container {
+  position: relative;
 }
 
-/* Estilos para la tabla */
-table {
-  border-collapse: collapse;
-  width: 100%;
-  background-color: #fff;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
-}
-
-th, td {
-  padding: 15px;
-  text-align: left;
-}
-
-/* Estilos para los botones y la modal */
-button {
-  background-color: #007BFF;
+.content {
+  background-color: #3498db;
   color: #fff;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 100;
-}
-
-.modal-dialog {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.modal-content {
-  background: #fff;
   padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-header button {
-  background: none;
-  border: none;
-  font-size: 24px;
+  border-radius: 10px;
   cursor: pointer;
-  color: #333;
-}
-
-/* Personaliza los estilos específicos para tu vista de salones */
-/* Por favor, agrega tus estilos específicos aquí */
-
-
-/* Estilo para el contenedor principal */
-div {
-  text-align: center; /* Centra el contenido del div */
-}
-
-/* Estilo para el título */
-h1 {
-  margin: 0; /* Elimina el margen superior predeterminado */
-}
-
-/* Estilo para el botón "Agregar Curso" */
-#agregar-button {
-  float: right;
-  margin-right: 20px;
-  margin-top: 0px;
-}
-
-/* Estilo para la tabla */
-#cursos-list {
-  width: 90%;
-  margin:20px
-  border-collapse: collapse;
-  margin-top: 40px;
-}
-
-#cursos-list th, #cursos-list td {
-  border: 1px solid #ccc;
-  padding: 8px;
+  transition: background-color 0.3s;
   text-align: center;
-  height: 30px; /* Altura fija de las filas */
+  position: relative;
 }
 
-/* Estilo para los botones */
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  margin-right: 5px;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Estilo para el botón de "Agregar Curso" */
-#agregar-button {
-  float: right;
-  margin-right: 20px;
-  margin-top: 20px;
-}
-
-
-
-/* Estilos para la ventana modal */
-.modal {
-  position: fixed;
+.info {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 10px;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
+  right: 0;
+  bottom: 0;
+  display: none;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.3s, background-color 0.5s;
 }
 
-.modal-dialog {
-  width: 30%; /* Ancho del 30% de la pantalla */
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+.content:hover {
+  background-color: #2980b9;
 }
 
-/* Estilos para el botón de cerrar */
-.modal-header {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+.content:hover .info {
+  display: block;
+  opacity: 1;
+}
+.border-list{
+  background-color: #50C393;
+  border-color: #285E44;
+  border-style: solid;
+  border-radius: 10px;
+}
+.border-list2{
+  background-color: white;
+  border-color: #898888;
+  border-style: solid;
+  border-radius: 10px;
 }
 
-.modal-header button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: black; /* Cambiar el color del icono a negro */
+.w-33{
+  width:33%
 }
 
-/* Estilos para el formulario */
-.modal-body {
-  background-color: #f5f5f5;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+.rounder{
+  background-color: white;
+  border-radius: 50px;
+  height:100px;
+  width:100px;
 }
 
-/* Estilos para los campos de entrada */
-label {
-  font-weight: bold;
-  margin-bottom: 10px; /* Aumentar el margen a 10% */
-  color: #333;
+.m-100{
+  margin:100px;
+}
+.div-icon-border{
+  background-color: #3498db; 
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px; /* Aumentar el margen a 10% */
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.border-50{
+  border:1px solid black;
+  border-radius:50px;
 }
-button {
-  background-color: #007BFF;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
+.bg-blue1{
+  background-color:#265D80;
+  transition:0.5s
+}
+.bg-blue1:hover{
+  background-color:gray;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
 `;

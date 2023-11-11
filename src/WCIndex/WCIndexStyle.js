@@ -1,8 +1,9 @@
 import { css } from "lit-element";
 
 export default css `
+
 .w-3{
-    width:3%;
+    width:3%!important;
 }
 .left-25{
     left:-25%!important;

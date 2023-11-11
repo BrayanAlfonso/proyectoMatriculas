@@ -13,19 +13,24 @@ export class WCMainProfesoresView extends LitElement {
         this.materia = '';
         this.jornada = '';
         this.curso = '';
+        this.main=''
+        this.selectedView = 'profesores';
+
     }
 
     static get properties() {
         return {
             nombre: { type: String },
             documento: { type: String },
-            profesores:{
-                type: Array
-            },
+            profesores:{type: Array},
+            salones:{type: Array},
+            cursos:{type: Array},
             edad: { type: String },
             materia: { type: String },
             jornada: { type: String },
             curso: { type: String },
+            main:{type:String},
+            selectedView: { type: String }
         }
     }
 
@@ -41,13 +46,39 @@ export class WCMainProfesoresView extends LitElement {
         return[WCMainProfesoresStyle]
     }
 
-    mostrarCursos(){
-        let main = this.shadowRoot.querySelector('#main')
-        main.innerHTML=`<cursos-views></cursos-views>`
+    mostrarCursos(x){
+        if(x){
+            let main = this.shadowRoot.getElementById("main")
+            main.innerHTML=``
+            this.main= html`<cursos-views .cursos="${this.cursos}" .profesores="${this.profesores}" .salones="${this.salones}"></cursos-views>`
+
+        }else{
+            this.main= html``
+        }
+        return this.main
     }
-    mostrarSalones(){
-        let main = this.shadowRoot.querySelector('#main')
-        main.innerHTML=`<salones-views></salones-views>`
+
+    mostrarSalones(x){
+        if(x){
+            let main = this.shadowRoot.getElementById("main")
+            main.innerHTML=``
+            this.main= html`<salones-views .salones="${this.salones}" .profesores="${this.profesores}"></salones-views>`
+
+        }else{
+            this.main= html``
+        }
+        return this.main
+    }
+    mostrarMainProfesores(x){
+        if(x){
+            let main = this.shadowRoot.getElementById("main")
+            main.innerHTML=``
+            this.main = html`<wc-mainprofesoresview .profesores="${this.profesores}" .salones="${this.salones}" .cursos="${this.cursos}"></wc-mainprofesoresview>`
+        }else{
+            this.main=html``
+        }
+        return this.main
+        
     }
 
     cargarProfesores() {
@@ -57,6 +88,7 @@ export class WCMainProfesoresView extends LitElement {
 
     guardarProfesores() {
         localStorage.setItem('profesores', JSON.stringify(this.profesores));
+        localStorage.setItem('salones', JSON.stringify(this.salones));
     }
 
     registrarProfesor() {
@@ -70,6 +102,7 @@ export class WCMainProfesoresView extends LitElement {
                 curso: this.curso
             };
             this.profesores.push(nuevoProfesor);
+            console.log(this.profesores,this.salones)
             this.guardarProfesores();
 
             this.documento = '';
@@ -89,21 +122,21 @@ export class WCMainProfesoresView extends LitElement {
         console.log(profesor);
         let arregloProfesor = this.profesores.find((arregloProfesor) => arregloProfesor.documento === profesor)
         console.log(arregloProfesor);
-        let documento = this.shadowRoot.querySelector('#documentoActualizar').value
-        let nombre = this.shadowRoot.querySelector('#nombreActualizar').value
-        let edad = this.shadowRoot.querySelector('#edadActualizar').value
-        let materia = this.shadowRoot.querySelector('#materiaActualizar').value
-        let jornada = this.shadowRoot.querySelector('#jornadaActualizar').value
-        let curso = this.shadowRoot.querySelector('#cursoActualizar').value
+        let documentoA = this.shadowRoot.querySelector(`#documentoActualizar${profesor}`).value
+        let nombreA = this.shadowRoot.querySelector(`#nombreActualizar${profesor}`).value
+        let edadA = this.shadowRoot.querySelector(`#edadActualizar${profesor}`).value
+        let materiaA = this.shadowRoot.querySelector(`#materiaActualizar${profesor}`).value
+        let jornadaA = this.shadowRoot.querySelector(`#jornadaActualizar${profesor}`).value
+        let cursoA = this.shadowRoot.querySelector(`#cursoActualizar${profesor}`).value
 
-        console.log(documento, nombre, edad, materia, jornada, curso)
+        console.log(documentoA, nombreA, edadA, materiaA, jornadaA, cursoA)
 
-        arregloProfesor.documento = documento
-        arregloProfesor.nombre = nombre
-        arregloProfesor.edad = edad
-        arregloProfesor.materia = materia
-        arregloProfesor.jornada = jornada
-        arregloProfesor.curso = curso
+        arregloProfesor.documento = documentoA
+        arregloProfesor.nombre = nombreA
+        arregloProfesor.edad = edadA
+        arregloProfesor.materia = materiaA
+        arregloProfesor.jornada = jornadaA
+        arregloProfesor.curso = cursoA
 
         this.requestUpdate()
     }
@@ -134,16 +167,16 @@ export class WCMainProfesoresView extends LitElement {
         miModal.style.background="none"
     }
 
-    abrirModalActualizar() {
-        const miModal = this.shadowRoot.querySelector("#modalActualizar");
+    abrirModalActualizar(id) {
+        const miModal = this.shadowRoot.querySelector(`#modalActualizar${id}`);
         miModal.style.display = "block";
         miModal.style.background="rgb(0,0,0,0.7)"
     }
 
 
-    cerrarModalActualizar() {
+    cerrarModalActualizar(id) {
         console.log("modal cerrado")
-        const miModal = this.shadowRoot.querySelector("#modalActualizar");
+        const miModal = this.shadowRoot.querySelector(`#modalActualizar${id}`);
         miModal.style.display = "none";
         miModal.style.background="none"
     }
@@ -196,31 +229,28 @@ export class WCMainProfesoresView extends LitElement {
         };
     }
 
+
+
     render() {
         return html`
         <style>
             @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
             @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
         </style>
-        <nav>
-            <ul class="d-flex list-unstyled">
-                <li class="mx-3"><button class="btn bg-blue1 text-white  mt-1 p-3" @click=${(e)=>this.mostrarSalones()}>Registrar salon</button></li>
-                <li class="mx-3"><button class="btn bg-blue1 text-white  mt-1 p-3" @click=${(e)=>this.mostrarCursos()}>Registrar curso</button></li>
-            </ul>
-        </nav>
-<div class="d-flex flex-column justify-content-center aling-items-center m-100" id="main">
-    <div class=" d-flex flex-column ">
+
+
+        <div class="d-flex flex-column m-5 vh-50 border-content3-01" id="main">
+        <div class=" d-flex flex-column ">
         <!-- Sección a la derecha -->
         <div class="container-fluid">
             <div class="page-header">
                 <div class="row align-items-center justify-content-between">
-                    <div class="m-3">
-                        <h1>Profesores</h1>
+                    <div class="m-3 d-flex align-items-center justify-content-between">
+                            <h1 class="mb-0">Profesores</h1>
+                            <button class="input-1 bg-success text-light p-2 mx-5" href="javascript:;" @click="${this.abrirModal}">
+                            <i class="bi-person-plus-fill me-1"></i> Nuevo</button>
                     </div>
-                    <div class="col-auto">
-                        <a class="btn bg-blue1 text-white  mt-1 p-3" href="javascript:;" @click="${this.abrirModal}">
-                        <i class="bi-person-plus-fill me-1"></i> Nuevo</a>
-                    </div>
+
                     
                     <div class="modal " id="modalRegistro" tabindex="-1" role="dialog" style="display: none;">
                         <div class="modal-dialog modal-dialog-centered bg-transparent" role="document">
@@ -267,67 +297,73 @@ export class WCMainProfesoresView extends LitElement {
     </div>
     ${this.profesores.map(
         (profesor) => html`
-            <div class="d-flex m-5 border-50">
-                <div class="w-25 d-flex div-icon-border aling-items-center justify-content-center">
-                    <i class="fa-solid fa-user fa-5x m-3"></i>
+            <div class="d-flex mx-5 my-3 border-content3-01 p-3">
+                <div class="d-flex border-list justify-content-center align-items-center">
+                    <div class="d-flex justify-content-center align-items-center m-3 my-1 rounder bg-light">
+                        <i class="m-5 fa-solid fa-user fa-2xl"></i>
+                    </div>
                 </div>
         
-                <div class="w-50 p-3">
+                <div class="d-flex flex-column w-100 m-3 border-list2">
                     <div>
-                        <h4>Nombre: ${profesor.nombre}</h4>
+                        <h1 class="my-1 w-75">${profesor.nombre}</h1>
                     </div>
+                    <div class="d-flex">
+                        <div class="d-flex flex-column justify-content-center m-2 mu-1 w-33">
+                            
+                            <p><strong>Documento: </strong>${profesor.documento}</p>
+                            <p><strong>Edad: </strong>${profesor.edad}</p>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center m-2 w-33">
+                            <p><strong>Materia: </strong>${profesor.materia}</p>
+                            <p><strong>Jornada: </strong>${profesor.jornada}</p>
+                            <p><strong>Curso: </strong>${profesor.curso}</p>
+                        </div>
+                        <div>
+                            <div class="d-flex flex-column m-3 h-65 vw-50 ">
+                                <button type="button" class="m-1 input-1 bg-danger text-light"><i class="fa-regular fa-trash-can" @click="${() => this.eliminarProfesor(profesor.documento)}"> Eliminar</i></button>
+                            </div>
+                            <div class="d-flex flex-column m-3 h-65 vw-50 ">
+                                <button type="button" class="m-1 input-1 bg-info text-light"><i class="fa-regular fa-trash-can" @click="${()=>this.abrirModalActualizar(profesor.documento)}"> Actualizar</i></button>
+                            </div>
+                        </div>
 
-                    <div class="d-flex w-100">
-                        <div class="w-50">Documento: ${profesor.documento}</div>
-                        <div class="w-50">Edad: ${profesor.edad}</div>
                     </div>
-                    <div class="d-flex w-100">
-                        <div class="w-50">Materia: ${profesor.materia}</div>
-                        <div class="w-50">Jornada: ${profesor.jornada}</div>
-                    </div>
-                    <div class="d-flex w-100">
-                        curso: ${profesor.curso}
-                    </div>
-                </div>
-                <div class="w-25 d-flex flex-column aling-items-center justify-content-center">
-                    <button class="btn btn-primary w-50 m-2" @click="${() => { console.log(profesor); this.abrirModalActualizar(profesor.documento); }}">Actualizar</button>
-                    <button class="btn btn-danger w-50 m-2" @click="${() => this.eliminarProfesor(profesor.documento)}">Eliminar</button>
                 </div>
             </div>
-        </div>
         
-        <div class="modal" id="modalActualizar" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal" id="modalActualizar${profesor.documento}" tabindex="-1" role="dialog" style="display: none;">
             <div class="modal-dialog modal-dialog-centered bg-transparent" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Formulario de Actualización</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="${this.cerrarModalActualizar}"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="${(e)=>this.cerrarModalActualizar(profesor.documento)}"></button>
                     </div>
                     <div class="modal-body">
                         <form id="actualizarForm">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre de profesor</label>
-                                <input type="text" class="form-control" id="nombreActualizar" .value="${profesor.nombre}">
+                                <input type="text" class="form-control" id="nombreActualizar${profesor.documento}" .value="${profesor.nombre}">
                             </div>
                             <div class="mb-3">
                                 <label for="identificacion" class="form-label">Documento</label>
-                                <input type="text" class="form-control" id="documentoActualizar" .value="${profesor.documento}">
+                                <input type="text" class="form-control" id="documentoActualizar${profesor.documento}" .value="${profesor.documento}">
                             </div>
                             <div class="mb-3">
                                 <label for="campana" class="form-label">Edad</label>
-                                <input type="text" class="form-control" id="edadActualizar" .value="${profesor.edad}">
+                                <input type="text" class="form-control" id="edadActualizar${profesor.documento}" .value="${profesor.edad}">
                             </div>
                             <div class="mb-3">
                                 <label for="telefono" class="form-label">Materia</label>
-                                <input type="text" class="form-control" id="materiaActualizar" .value="${profesor.materia}" >
+                                <input type="text" class="form-control" id="materiaActualizar${profesor.documento}" .value="${profesor.materia}" >
                             </div>
                             <div class="mb-3">
                                 <label for="telefono" class="form-label">Jornada</label>
-                                <input type="text" class="form-control" id="jornadaActualizar" .value="${profesor.jornada}" >
+                                <input type="text" class="form-control" id="jornadaActualizar${profesor.documento}" .value="${profesor.jornada}" >
                             </div>
                             <div class="mb-3">
                                 <label for="estado" class="form-label">Curso</label>
-                                <input type="text" class="form-control" id="cursoActualizar" .value="${profesor.curso}">
+                                <input type="text" class="form-control" id="cursoActualizar${profesor.documento}" .value="${profesor.curso}">
                             </div>
                             <button type="button" class="btn btn-primary" @click="${() => this.actualizarProfesor(profesor.documento)}">Actualizar</button>
                         </form>
@@ -338,6 +374,7 @@ export class WCMainProfesoresView extends LitElement {
         
         `
         )}
+</div>
 `
     }
 }
