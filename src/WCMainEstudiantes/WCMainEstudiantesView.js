@@ -5,21 +5,7 @@ export class WCMainEstudiantesView extends LitElement{
 
     constructor(){
         super();
-        this.Estudiantes=[
-            {
-            nombreE: 'Joel Sebastian',
-            documentoE: '1029141439',
-            edadE: '18',
-            cursoE: '11',
-            discapacidadE: 'Ninguna',
-            acudienteE: 'N.A.R.P',
-            epsE: 'Sanitas',
-            direccionE: 'Calle 45 Sur 17-32',
-            certifEstudioE: 'si',
-            telefonoE: '2343232421',
-            jornada: 'Diurna'
-            }
-        ];
+        
         this.nombreE='',
         this.documentoE='',
         this.edadE='',
@@ -50,7 +36,10 @@ export class WCMainEstudiantesView extends LitElement{
           direccionE: { type: String },
           certifEstudioE: { type: String },
           telefonoE: { type: String },
-          jornada: { type: String }
+          jornada: { type: String },
+          profesores:{type: Array},
+          salones:{type: Array},
+          cursos:{type: Array},
         }
     }
 
@@ -68,19 +57,25 @@ export class WCMainEstudiantesView extends LitElement{
     //CRUD
 
     registrarEstudiante() {
-        if (this.nombreE && this.direccionE && this.edadE && this.cursoE && this.discapacidadE && this.acudienteE && this.epsE && this.direccionE && this.certifEstudioE && this.telefonoE && this.jornada) {
+        console.log("entro")
+        if (this.nombreE && this.direccionE && this.edadE && this.cursoE && this.epsE && this.direccionE && this.certifEstudioE && this.telefonoE ) {
+            
+            let discapacidad = this.shadowRoot.getElementById("discapacidadE").value
+            let acudiente = this.shadowRoot.getElementById("acudienteE").value
+            let jornada = this.shadowRoot.getElementById("jornada").value
+            
             const nuevoEstudiante = {
                 nombreE: this.nombreE,
                 documentoE: this.documentoE,
                 edadE: this.edadE,
                 cursoE: this.cursoE,
-                discapacidadE: this.discapacidadE,
-                acudienteE: this.acudienteE,
+                discapacidadE: discapacidad,
+                acudienteE: acudiente,
                 epsE: this.epsE,
                 direccionE: this.direccionE,
                 certifEstudioE: this.certifEstudioE,
                 telefonoE: this.telefonoE,
-                jornada: this.jornada
+                jornada: jornada
             };
             this.Estudiantes.push(nuevoEstudiante);
             this.guardarEstudiantes();
@@ -106,17 +101,17 @@ export class WCMainEstudiantesView extends LitElement{
         console.log(Estudiante);
         let arregloEstudiante = this.Estudiantes.find((arregloEstudiante)=>arregloEstudiante.documentoE === Estudiante)
         console.log(arregloEstudiante);
-        let nombreE = this.shadowRoot.querySelector('#nombreEActualizar').value;
-        let documentoE = this.shadowRoot.querySelector('#documentoEActualizar').value;
-        let edadE = this.shadowRoot.querySelector('#edadEActulizar').value;
-        let cursoE = this.shadowRoot.querySelector('#cursoEActualizar').value;
-        let discapacidadE = this.shadowRoot.querySelector('#discapacidadEActualizar').value;
-        let acudienteE = this.shadowRoot.querySelector('#acudienteEActualizar').value;
-        let epsE = this.shadowRoot.querySelector('#epsEActualizar').value;
-        let direccionE = this.shadowRoot.querySelector('#direccionEActualizar').value;
-        let certifEstudioE = this.shadowRoot.querySelector('#certifEstudioEActualizar').value;
-        let telefonoE = this.shadowRoot.querySelector('#telefonoEActualizar').value;
-        let jornada = this.shadowRoot.querySelector('#jornadaActualizar').value;
+        let nombreE = this.shadowRoot.querySelector(`#nombreEActualizar${Estudiante}`).value;
+        let documentoE = this.shadowRoot.querySelector(`#documentoEActualizar${Estudiante}`).value;
+        let edadE = this.shadowRoot.querySelector(`#edadEActulizar${Estudiante}`).value;
+        let cursoE = this.shadowRoot.querySelector(`#cursoEActualizar${Estudiante}`).value;
+        let discapacidadE = this.shadowRoot.querySelector(`#discapacidadEActualizar${Estudiante}`).value;
+        let acudienteE = this.shadowRoot.querySelector(`#acudienteEActualizar${Estudiante}`).value;
+        let epsE = this.shadowRoot.querySelector(`#epsEActualizar${Estudiante}`).value;
+        let direccionE = this.shadowRoot.querySelector(`#direccionEActualizar${Estudiante}`).value;
+        let certifEstudioE = this.shadowRoot.querySelector(`#certifEstudioEActualizar${Estudiante}`).value;
+        let telefonoE = this.shadowRoot.querySelector(`#telefonoEActualizar${Estudiante}`).value;
+        let jornada = this.shadowRoot.querySelector(`#jornadaActualizar${Estudiante}`).value;
 
         arregloEstudiante.nombreE = nombreE
         arregloEstudiante.documentoE = documentoE
@@ -131,7 +126,7 @@ export class WCMainEstudiantesView extends LitElement{
         arregloEstudiante.jornada = jornada
     
         this.requestUpdate()
-        this.cerrarModalActualizar()
+        this.cerrarModalActualizar(Estudiante)
     }
 
     eliminarEstudiante(Estudiante) {
@@ -146,36 +141,43 @@ export class WCMainEstudiantesView extends LitElement{
     //MODALES
 
     abrirModal() {  
+        this.requestUpdate()
         const miModal = this.shadowRoot.querySelector("#modalRegistro");
         miModal.style.display = "block";
+        miModal.style.background="rgb(0,0,0,0.7)"
 
     }
       
     cerrarModal() {
         const miModal = this.shadowRoot.querySelector("#modalRegistro");
         miModal.style.display = "none";
+        miModal.style.background="none"
     }
       
-    abrirModalActualizar() {
-        const miModal = this.shadowRoot.querySelector("#modalActualizar");
+    abrirModalActualizar(id) {
+        const miModal = this.shadowRoot.querySelector(`#modalActualizar-${id}`);
         miModal.style.display = "block";
+        miModal.style.background="rgb(0,0,0,0.7)"
     }
       
-    cerrarModalActualizar() {
+    cerrarModalActualizar(id) {
         console.log("modal cerrado")
-        const miModal = this.shadowRoot.querySelector("#modalActualizar");
+        const miModal = this.shadowRoot.querySelector(`#modalActualizar-${id}`);
         miModal.style.display = "none";
+        miModal.style.background="none"
     }
     
-    abrirModalConsulta() {
-        const miModal = this.shadowRoot.querySelector("#modalConsulta");
+    abrirModalConsulta(id) {
+        const miModal = this.shadowRoot.querySelector(`#modalConsulta${id}`);
         miModal.style.display = "block";
+        miModal.style.background="rgb(0,0,0,0.7)"
     }
       
-    cerrarModalConsulta() {
+    cerrarModalConsulta(id) {
         console.log("modal cerrado")
-        const miModal = this.shadowRoot.querySelector("#modalConsulta");
+        const miModal = this.shadowRoot.querySelector(`#modalConsulta${id}`);
         miModal.style.display = "none";
+        miModal.style.background="none"
     }
 
     //Element
@@ -234,11 +236,18 @@ export class WCMainEstudiantesView extends LitElement{
                                             </div>
                                             <div class="mb-3">
                                                 <label for="discapacidadE" class="form-label">Discapacidad</label>
-                                                <input type="text" class="form-control" id="discapacidadE" .value="${this.discapacidadE}" @input="${(e) => (this.discapacidadE = e.target.value)}">
+                                                <select class="form-select" id="discapacidadE" .value="${this.discapacidadE}">
+                                                    <option value="Si">Si</option>
+                                                    <option value="No">No</option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="acudienteE" class="form-label">Acudiente</label>
-                                                <input type="text" class="form-control" id="acudienteE" .value="${this.acudienteE}" @input="${(e) => (this.acudienteE = e.target.value)}">
+                                                <select class="form-select" id="acudienteE" .value="${this.acudienteE}">
+                                                    ${this.acudientes.map(acudiente=>html`
+                                                    <option value="${acudiente.documento}">${acudiente.nombre}</option>
+                                                    `)}
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="epsE" class="form-label">EPS</label>
@@ -258,9 +267,12 @@ export class WCMainEstudiantesView extends LitElement{
                                             </div>
                                             <div class="mb-3">
                                                 <label for="jornada" class="form-label">Jornada</label>
-                                                <input type="text" class="form-control" id="jornada" .value="${this.jornada}" @input="${(e) => (this.jornada = e.target.value)}">
-                                            </div>
-                                                <button type="button" class="btn btn-primary" @click="${this.registrarEstudiante}">Enviar</button>
+                                                    <select class="form-select" id="jornada" .value="${this.jornada}">
+                                                        <option value="Tarde">Tarde</option>
+                                                        <option value="Mañana">Mañana</option>
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="btn btn-primary" @click="${()=>this.registrarEstudiante()}">Enviar</button>
                                         </form>
                                     </div>
                                 </div>
@@ -302,64 +314,76 @@ export class WCMainEstudiantesView extends LitElement{
                                 </div>
                                 <div class="d-flex flex-column w-25 justify-content-center m-2 ">
                                     <div class="d-flex flex-column m-3 h-65 vw-50 ">
-                                        <button type="button" class="m-1 input-1 bg-danger text-light"><i class="fa-regular fa-trash-can" @click="${() => this.eliminarEstudiante(Estudiante)}"> Eliminar</i></button>
+                                        <button type="button" class="m-1 input-1 bg-danger text-light"><i class="fa-regular fa-trash-can" @click="${() => this.eliminarEstudiante(Estudiante.documentoE)}"> Eliminar</i></button>
                                     </div>
                                     <div class="d-flex flex-column m-3 h-65 vw-50 ">
-                                        <button type="button" class="m-1 input-1 bg-info text-light"><i class="fa-regular fa-trash-can" @click="${this.abrirModalActualizar}"> Actualizar</i></button>
+                                        <button type="button" class="m-1 input-1 bg-info text-light"><i class="fa-regular fa-trash-can" @click="${()=>this.abrirModalActualizar(Estudiante.documentoE)}"> Actualizar</i></button>
                                     </div>
 
-                                    <div class="modal" id="modalActualizar" tabindex="-1" role="dialog" style="display: none;">
+                                    <div class="modal" id="modalActualizar-${Estudiante.documentoE}" tabindex="-1" role="dialog" style="display: none;">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Actualizar Estudiante</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="${this.cerrarModalActualizar}"></button>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="${()=>this.cerrarModalActualizar(Estudiante.documentoE)}"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <form id="actualizarForm">
                                                             <div class="mb-3">
                                                                 <label for="nombreE" class="form-label">Nombre</label>
-                                                                <input type="text" class="form-control" id="nombreEActualizar" .value="${Estudiante.nombreE}">
+                                                                <input type="text" class="form-control" id="nombreEActualizar${Estudiante.documentoE}" .value="${Estudiante.nombreE}">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="documentoE" class="form-label">Documento</label>
-                                                                <input type="text" class="form-control" id="documentoEActualizar" .value="${Estudiante.documentoE}">
+                                                                <input type="text" class="form-control" id="documentoEActualizar${Estudiante.documentoE}" .value="${Estudiante.documentoE}">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="edadE" class="form-label">Edad</label>
-                                                                <input type="text" class="form-control" id="edadEActulizar" .value="${Estudiante.edadE}" >
+                                                                <input type="text" class="form-control" id="edadEActulizar${Estudiante.documentoE}" .value="${Estudiante.edadE}" >
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="cursoE" class="form-label">Curso</label>
-                                                                <input type="text" class="form-control" id="cursoEActualizar" .value="${Estudiante.cursoE}">
+                                                                <input type="text" class="form-control" id="cursoEActualizar${Estudiante.documentoE}" .value="${Estudiante.cursoE}">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="discapacidadE" class="form-label">Discapacidad</label>
-                                                                <input type="text" class="form-control" id="discapacidadEActualizar" .value="${Estudiante.discapacidadE}">
+                                                                <select class="form-select" id="discapacidadEActualizar${Estudiante.documentoE}" .value="${Estudiante.discapacidadE}">
+                                                                    <option value="Si">Si</option>
+                                                                    <option value="No">No</option>
+                                                                </select>
+                                                                
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="acudienteE" class="form-label">Acudiente</label>
-                                                                <input type="text" class="form-control" id="acudienteEActualizar" .value="${Estudiante.acudienteE}">
+                                                                <select class="form-select" id="acudienteEActualizar${Estudiante.documentoE}" .value="${Estudiante.acudienteE}">
+                                                                    ${this.acudientes.map(acudiente=>html`
+                                                                    <option value="${acudiente.documento}">${acudiente.nombre}</option>
+                                                                    `)}
+                                                                </select>
+                                                                
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="epsE" class="form-label">EPS</label>
-                                                                <input type="text" class="form-control" id="epsEActualizar" .value="${Estudiante.epsE}">
+                                                                <input type="text" class="form-control" id="epsEActualizar${Estudiante.documentoE}" .value="${Estudiante.epsE}">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="direccionE" class="form-label">Dirección</label>
-                                                                <input type="text" class="form-control" id="direccionEActualizar" .value="${Estudiante.direccionE}">
+                                                                <input type="text" class="form-control" id="direccionEActualizar${Estudiante.documentoE}" .value="${Estudiante.direccionE}">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="certifEstudioE" class="form-label">Certificados</label>
-                                                                <input type="text" class="form-control" id="certifEstudioEActualizar" .value="${Estudiante.certifEstudioE}">
+                                                                <input type="text" class="form-control" id="certifEstudioEActualizar${Estudiante.documentoE}" .value="${Estudiante.certifEstudioE}">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="telefonoE" class="form-label">Telefono</label>
-                                                                <input type="text" class="form-control" id="telefonoEActualizar" .value="${Estudiante.telefonoE}">
+                                                                <input type="text" class="form-control" id="telefonoEActualizar${Estudiante.documentoE}" .value="${Estudiante.telefonoE}">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="jornada" class="form-label">Jornada</label>
-                                                                <input type="text" class="form-control" id="jornadaActualizar" .value="${Estudiante.jornada}">
+                                                                <select class="form-select" id="jornadaActualizar${Estudiante.documentoE}" .value="${Estudiante.jornada}">
+                                                                    <option value="Tarde">Tarde</option>
+                                                                    <option value="Mañana">Mañana</option>
+                                                                </select>
                                                             </div>
                                                                 <button type="button" class="btn btn-primary" @click="${() => this.actualizarEstudiante(Estudiante.documentoE)}">Enviar</button>
                                                         </form>
@@ -368,62 +392,62 @@ export class WCMainEstudiantesView extends LitElement{
                                             </div>
                                         </div>
                                         <div class="d-flex flex-column m-3 my-3 h-65 vw-50 ">
-                                            <button type="button" class="m-1 input-1 bg-warning text-light"><i class="fa-regular fa-trash-can" @click="${this.abrirModalConsulta}"> Ver Info</i></button>
+                                            <button type="button" class="m-1 input-1 bg-warning text-light"><i class="fa-regular fa-trash-can" @click="${()=>this.abrirModalConsulta(Estudiante.documentoE)}"> Ver Info</i></button>
                                         </div>
-                                        <div class="modal" id="modalConsulta" tabindex="-1" role="dialog" style="display: none;">
+                                        <div class="modal" id="modalConsulta${Estudiante.documentoE}" tabindex="-1" role="dialog" style="display: none;">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="exampleModalLabel">Información del Estudiante</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="${this.cerrarModalConsulta}"></button>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="${()=>this.cerrarModalConsulta(Estudiante.documentoE)}"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <form id="consultarForm">
                                                                 <div class="mb-3">
                                                                     <label for="nombreE" class="form-label">Nombre</label>
-                                                                    <input type="text" class="form-control" id="nombreEActualizar" .value="${Estudiante.nombreE}">
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.nombreE}">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="documentoE" class="form-label">Documento</label>
-                                                                    <input type="text" class="form-control" id="documentoEActualizar" .value="${Estudiante.documentoE}">
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.documentoE}">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="edadE" class="form-label">Edad</label>
-                                                                    <input type="text" class="form-control" id="edadEActulizar" .value="${Estudiante.edadE}" >
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.edadE}" >
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="cursoE" class="form-label">Curso</label>
-                                                                    <input type="text" class="form-control" id="cursoEActualizar" .value="${Estudiante.cursoE}">
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.cursoE}">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="discapacidadE" class="form-label">Discapacidad</label>
-                                                                    <input type="text" class="form-control" id="discapacidadEActualizar" .value="${Estudiante.discapacidadE}">
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.discapacidadE}">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="acudienteE" class="form-label">Acudiente</label>
-                                                                    <input type="text" class="form-control" id="acudienteEActualizar" .value="${Estudiante.acudienteE}">
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.acudienteE}">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="epsE" class="form-label">EPS</label>
-                                                                    <input type="text" class="form-control" id="epsEActualizar" .value="${Estudiante.epsE}">
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.epsE}">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="direccionE" class="form-label">Dirección</label>
-                                                                    <input type="text" class="form-control" id="direccionEActualizar" .value="${Estudiante.direccionE}">
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.direccionE}">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="certifEstudioE" class="form-label">Certificados</label>
-                                                                    <input type="text" class="form-control" id="certifEstudioEActualizar" .value="${Estudiante.certifEstudioE}">
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.certifEstudioE}">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="telefonoE" class="form-label">Telefono</label>
-                                                                    <input type="text" class="form-control" id="telefonoEActualizar" .value="${Estudiante.telefonoE}">
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.telefonoE}">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="jornada" class="form-label">Jornada</label>
-                                                                    <input type="text" class="form-control" id="jornadaActualizar" .value="${Estudiante.jornada}">
+                                                                    <input type="text" class="form-control" id="" .value="${Estudiante.jornada}">
                                                                 </div>
-                                                                    <button type="button" class="btn btn-primary" @click="${this.cerrarModalConsulta}">Cerrar</button>
+                                                                    <button type="button" class="btn btn-primary" @click="${()=>this.cerrarModalConsulta(Estudiante.documentoE)}">Cerrar</button>
                                                             </form>
                                                         </div>
                                                     </div>

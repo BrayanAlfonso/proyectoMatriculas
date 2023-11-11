@@ -92,14 +92,17 @@ export class WCMainProfesoresView extends LitElement {
     }
 
     registrarProfesor() {
-        if (this.documento && this.nombre && this.edad && this.materia && this.jornada && this.curso) {
+        if (this.documento && this.nombre && this.edad && this.materia) {
+
+            let jornada=this.shadowRoot.getElementById("jornada").value
+            let curso=this.shadowRoot.getElementById("curso").value
             const nuevoProfesor = {
                 documento: this.documento,
                 nombre: this.nombre,
                 edad: this.edad,
                 materia: this.materia,
-                jornada: this.jornada,
-                curso: this.curso
+                jornada: jornada,
+                curso: curso
             };
             this.profesores.push(nuevoProfesor);
             console.log(this.profesores,this.salones)
@@ -139,6 +142,7 @@ export class WCMainProfesoresView extends LitElement {
         arregloProfesor.curso = cursoA
 
         this.requestUpdate()
+        this.cerrarModalActualizar(profesor)
     }
 
 
@@ -239,7 +243,7 @@ export class WCMainProfesoresView extends LitElement {
         </style>
 
 
-        <div class="d-flex flex-column m-5 vh-50 border-content3-01" id="main">
+        <div class="d-flex flex-column m-5 vh-50" id="main">
         <div class=" d-flex flex-column ">
         <!-- Sección a la derecha -->
         <div class="container-fluid">
@@ -274,16 +278,25 @@ export class WCMainProfesoresView extends LitElement {
                                             <input type="text" class="form-control" id="campana" .value="${this.edad}" @input="${(e) => (this.edad = e.target.value)}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="telefono" class="form-label">Materia</label>
-                                            <input type="text" class="form-control" id="telefono" .value="${this.materia}" @input="${(e) => (this.materia = e.target.value)}">
+                                            <label for="materia" class="form-label">Materia</label>
+                                            <input type="text" class="form-control" id="materia" .value="${this.materia}" @input="${(e) => (this.materia = e.target.value)}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="telefono" class="form-label">Jornada</label>
-                                            <input type="text" class="form-control" id="telefono" .value="${this.jornada}" @input="${(e) => (this.jornada = e.target.value)}">
+                                            <select class="form-select" id="jornada" .value="${this.jornada}">
+                                                <option value="Tarde">Tarde</option>
+                                                <option value="Mañana">Mañana</option>
+                                            </select>
+                                            
                                         </div>
                                         <div class="mb-3">
                                             <label for="estado" class="form-label">Curso</label>
-                                            <input type="text" class="form-control" id="estado" .value="${this.curso}" @input="${(e) => (this.curso = e.target.value)}">
+                                            <select class="form-select" id="curso" .value="${this.curso}">
+                                            ${this.cursos.map(curso=>html`
+                                                <option value="${curso.ID}">${curso.ID}</option>
+                                            `)}
+                                            </select>
+                                            
                                         </div>
                                         <button type="button" class="bg-blue1 text-white" @click="${this.registrarProfesor}">Enviar</button>
                                     </form>
@@ -359,11 +372,20 @@ export class WCMainProfesoresView extends LitElement {
                             </div>
                             <div class="mb-3">
                                 <label for="telefono" class="form-label">Jornada</label>
-                                <input type="text" class="form-control" id="jornadaActualizar${profesor.documento}" .value="${profesor.jornada}" >
+                                <select class="form-select" id="jornadaActualizar${profesor.documento}" .value="${profesor.jornada}">
+                                    <option value="Tarde">Tarde</option>
+                                    <option value="Mañana">Mañana</option>
+                                </select>
+                                
                             </div>
                             <div class="mb-3">
                                 <label for="estado" class="form-label">Curso</label>
-                                <input type="text" class="form-control" id="cursoActualizar${profesor.documento}" .value="${profesor.curso}">
+                                <select class="form-select" id="cursoActualizar${profesor.documento}" .value="${profesor.curso}">
+                                ${this.cursos.map(curso=>html`
+                                    <option value="${curso.ID}">${curso.ID}</option>
+                                `)}
+                                </select>
+                                
                             </div>
                             <button type="button" class="btn btn-primary" @click="${() => this.actualizarProfesor(profesor.documento)}">Actualizar</button>
                         </form>

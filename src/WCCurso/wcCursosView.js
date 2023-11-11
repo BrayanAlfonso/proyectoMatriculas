@@ -118,8 +118,8 @@ export class wcCursosView extends LitElement {
                                 <div class="d-flex flex-column">
                                   <label for="jornada">Jornada:</label>
                                   <select class="p-2 border-10 border-1" id="jornada" name="jornada">
-                                    <option value="Tarde">Tarde</option>
-                                    <option value="Mañana">Mañana</option>
+                                  <option value="Tarde">Tarde</option>
+                                  <option value="Mañana">Mañana</option>
                                   </select> 
                                 </div>
                                 <div class="d-flex flex-column">

@@ -12,6 +12,21 @@ export class WCIndexview extends LitElement{
         this.main="";
         this.mainProfesores="";
         this.arreglos={
+            Estudiantes:[
+                {
+                nombreE: 'Joel Sebastian',
+                documentoE: '1029141439',
+                edadE: '18',
+                cursoE: '11',
+                discapacidadE: 'Ninguna',
+                acudienteE: 'N.A.R.P',
+                epsE: 'Sanitas',
+                direccionE: 'Calle 45 Sur 17-32',
+                certifEstudioE: 'si',
+                telefonoE: '2343232421',
+                jornada: 'Diurna'
+                }
+            ],
             Profesores:[
                 {
                 documento: '1019762839',
@@ -140,7 +155,8 @@ export class WCIndexview extends LitElement{
     
     mostrarMainEstudiantes(x){
         if(x){
-            this.main = html`<wc-mainestudiantes></wc-mainestudiantes>`
+            this.main = html`<wc-mainestudiantes .Estudiantes="${this.arreglos.Estudiantes}" .salones="${this.arreglos.salones}" .profesores="${this.arreglos.Profesores}" .cursos="${this.arreglos.cursos}" .acudientes="${this.arreglos.acudientes}"></wc-mainestudiantes>`
+            this.requestUpdate()
         }else{
             this.main=html``
         }

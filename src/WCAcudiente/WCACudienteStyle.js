@@ -1,47 +1,107 @@
 import { css } from "lit-element";
 
 export default css `
-/* Estilos para el fondo oscurecido cuando se muestra la ventana modal */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Color de fondo oscurecido con opacidad */
-    z-index: 1000; /* Asegura que el fondo esté por encima de todo lo demás */
-    display: none; /* Ocultar por defecto */
-  }
-  
-  /* Estilos para centrar la ventana modal en la pantalla */
-  .modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1001; /* Asegura que la ventana modal esté por encima del fondo */
-    display: none; /* Ocultar por defecto */
-  }
-  
-  /* Agrega transiciones suaves para una apertura y cierre de la ventana modal */
-  .modal.show, .overlay.show {
-    display: block;
-    transition: opacity 0.3s ease-in-out;
-  }
-  
-  /* Estilos para la ventana modal */
-  .modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Agrega más estilos de la ventana modal según sea necesario */
-  .bg-blue1{
-    background-color:#265D80;
+.border-content3-01{
+  background-color: White;
+  border: 4px;
+  border-color: #898888;
+  border-style: solid;
+  border-radius: 5px; 
 }
-#botonAbrirModal:hover{
+
+.input-1{
+  border: 2px;
+  border-color: black;
+  border-style: solid;
+  border-radius: 10px; 
+}
+.border-content3{
+  background-color: White;
+  border: 4px;
+  border-color: #898888;
+  border-style: solid;
+  border-radius: 5px; 
+}
+.container {
+  position: relative;
+}
+
+.content {
+  background-color: #3498db;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  position: relative;
+}
+
+.info {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.3s, background-color 0.5s;
+}
+
+.content:hover {
+  background-color: #2980b9;
+}
+
+.content:hover .info {
+  display: block;
+  opacity: 1;
+}
+.border-list{
+  background-color: #50C393;
+  border-color: #285E44;
+  border-style: solid;
+  border-radius: 10px;
+}
+.border-list2{
+  background-color: white;
+  border-color: #898888;
+  border-style: solid;
+  border-radius: 10px;
+}
+
+.w-33{
+  width:33%
+}
+
+.rounder{
+  background-color: white;
+  border-radius: 50px;
+  height:100px;
+  width:100px;
+}
+
+.m-100{
+  margin:100px;
+}
+.div-icon-border{
+  background-color: #3498db; 
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.border-50{
+  border:1px solid black;
+  border-radius:50px;
+}
+.bg-blue1{
+  background-color:#265D80;
+  transition:0.5s
+}
+.bg-blue1:hover{
   background-color:gray;
 }
 
