@@ -1,10 +1,13 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, render } from 'lit-element';
 import stylesScss from './wcCursosStyle';
 
 export class wcCursosView extends LitElement {
   constructor() {
     super();
     this.cursoIdActual = null; 
+    this.asientos2=[]
+    
+      this.asientosPorCurso = {};
   }
 
   
@@ -13,20 +16,13 @@ export class wcCursosView extends LitElement {
       cursos: { type: Array },
       profesores: { type: Array },
       salones: { type: Array },
+      Estudiantes: { type: Array },
+      asientos: { type: Array },
+      asientos2:{type:Array}
     }
   }
-
-
-
   
-  static get properties() {
-    return {
-      cursos: { type: Array },
-      profesores: { type: Array },
-      salones: { type: Array },
-    }
-  }
-
+  
 
   saveCursosToLocalStorage(cursos) {
     localStorage.setItem('cursos', JSON.stringify(cursos));
@@ -70,11 +66,145 @@ export class wcCursosView extends LitElement {
     modal.style.display = "none";
     modal.style.background = "none";
   }
+
+  encontrarIndice(matriz, valor) {
+    if (matriz && matriz.length) {
+      for (let i = 0; i < matriz.length; i++) {
+        const fila = matriz[i];
+        if (fila && fila.length) {
+          for (let j = 0; j < fila.length; j++) {
+            if (fila[j] === valor) {
+              return { fila: i, columna: j };
+            }
+          }
+        }
+      }
+    }
+    return null; // Si el valor no se encuentra o la matriz es inválida
+  }
+
+  
+  asignarAsiento(idCurso) {
+    this.generarDisposicionSillas(6,5,idCurso)
+    const asientosCursoActual = this.asientosPorCurso[idCurso];
+    console.log(asientosCursoActual)
+    const estudianteSeleccionado = this.shadowRoot.getElementById(`estudianteSeleccionadoCurso${idCurso}`).value;
+    const asientoSeleccionado = this.shadowRoot.getElementById(`asientoSeleccionadoCurso${idCurso}`).value;
+
+    // Encontrar al estudiante y el asiento seleccionados
+    const estudiante = this.Estudiantes.find((est) => est.nombreE === estudianteSeleccionado);
+
+    if (estudiante) {
+      estudiante.asignado = 1;
+
+      // Cambiar el color del asiento a gris
+      const asientoElement = this.shadowRoot.getElementById(`asiento${asientoSeleccionado}${idCurso}`);
+      if (asientoElement) {
+        asientoElement.style.backgroundColor = 'gray';
+      }
+
+      // Encontrar el índice del asiento en la matriz de asientos del curso actual
+      const indice = this.encontrarIndice(asientosCursoActual, asientoSeleccionado);
+
+      if (indice) {
+        // Eliminar el asiento de la matriz de asientos del curso
+        asientosCursoActual[indice.fila].splice(indice.columna, 1);
+      }
+
+      this.actualizarSelectores(idCurso); // Actualizar selectores después de la asignación
+    }
+  }
+  
+  
+
+  actualizarSelectores(idCurso) {
+    const estudianteSelector = this.shadowRoot.getElementById(`estudianteSeleccionadoCurso${idCurso}`);
+    const asientoSelector = this.shadowRoot.getElementById(`asientoSeleccionadoCurso${idCurso}`);
+
+    estudianteSelector.innerHTML = '';
+    asientoSelector.innerHTML = '';
+
+    const asientos = this.asientosPorCurso[idCurso];
+    const estudiantesDisponibles = this.Estudiantes.filter((estudiante) => estudiante.asignado == 0 && estudiante.cursoE == idCurso);
+
+    asientos.flat().forEach((asiento) => {
+      const option = document.createElement('option');
+      option.value = asiento;
+      option.textContent = asiento;
+      asientoSelector.appendChild(option);
+    });
+
+    estudiantesDisponibles.forEach((estudiante) => {
+      const option = document.createElement('option');
+      option.value = estudiante.nombreE;
+      option.textContent = estudiante.nombreE;
+      estudianteSelector.appendChild(option);
+    });
+  }
+  
+
+  abrirSillas(idCurso) {
+    console.log(idCurso)
+    // Resto de tu código...
+
+    const modal = this.shadowRoot.querySelector(`#modalSillas${idCurso}`);
+    modal.style.display = "block";
+    modal.style.background = "rgb(0,0,0,0.7)";
+
+  }
+
+  cerrarSillas(idCurso){
+    const modal = this.shadowRoot.querySelector(`#modalSillas${idCurso}`);
+    modal.style.display = "none";
+    modal.style.background = "none";
+  }
+  
+  generarDisposicionSillas(numFilas, numColumnas, cursoID) {
+    const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const asientosCurso = [];
+
+    for (let fila = 0; fila < numFilas; fila++) {
+      const filaAsientos = [];
+
+      for (let columna = 0; columna < numColumnas; columna++) {
+        const asiento = `${letras.charAt(fila)}${columna + 1}`;
+        filaAsientos.push(asiento);
+      }
+
+      asientosCurso.push(filaAsientos);
+    }
+
+    // Guardar la disposición de asientos para el curso específico
+    this.asientosPorCurso[cursoID] = asientosCurso;
+    return asientosCurso;
+  }
+
+  generarDisposicionSillas2(numFilas, numColumnas) {
+    const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // Cadena de letras para los asientos
+
+  
+    for (let fila = 0; fila < numFilas; fila++) {
+      const filaAsientos = [];
+  
+      for (let columna = 0; columna < numColumnas; columna++) {
+        const asiento = `${letras.charAt(fila)}${columna + 1}`;
+        filaAsientos.push(asiento);
+      }
+  
+      this.asientos2.push(filaAsientos);
+    }
+  
+    return this.asientos2;
+  }
+
+  
   
 
   render() {
+    const disposicionSillas = this.generarDisposicionSillas(6, 5);
+    const disposicionSillas2 = this.generarDisposicionSillas2(6, 5);
     return html`
-
+      
 
     <style>
             @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
@@ -170,6 +300,9 @@ export class wcCursosView extends LitElement {
                             <div class="d-flex flex-column m-3 h-65 vw-50 ">
                                 <button type="button" class="m-1 input-1 bg-info text-light"><i class="fa-regular fa-trash-can" @click="${()=> this.abrirActualizar(curso.ID)}"> Actualizar</i></button>
                             </div>
+                            <div class="d-flex flex-column m-3 h-65 vw-50 ">
+                              <button type="button" class="m-1 input-1 bg-secondary text-light"><i class="fa-regular fa-trash-can" @click="${()=>this.abrirSillas(curso.ID)}"> Ver disponibilidad</i></button>
+                            </div>
                         </div>
 
                     </div>
@@ -215,6 +348,61 @@ export class wcCursosView extends LitElement {
             </div>
         </div>
         
+
+        <div class="modal" id="modalSillas${curso.ID}" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered bg-transparent" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sillas disponibles en el salon ${curso.SALON}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="${(e)=>this.cerrarSillas(curso.ID)}"></button>
+                </div>
+                <div class="modal-body" id="modal-body-${curso.ID}">
+                <div class="cinema-seats d-flex">
+                ${disposicionSillas2.map(fila =>
+                  html`
+                    <div class="row">
+                      ${fila.map(asiento =>
+                        html`
+                          <div class="seat p-2" id="asiento${asiento}${curso.ID}">${asiento}</div>
+                        `
+                      )}
+                    </div>
+                  `
+                )}
+              </div>
+              <div class="m-3">
+                <label>
+                  Estudiante:
+                </label>
+                <select class="form-select" id="estudianteSeleccionadoCurso${curso.ID}">
+                ${this.Estudiantes.filter(Estudiante=>Estudiante.cursoE==curso.ID).map(Estudiante=>html`
+                <option value="${Estudiante.nombreE}">${Estudiante.nombreE}</option>`)}
+                </select>
+              </div>
+        
+              <div class="m-3">
+                <label>
+                  Asiento:
+                </label>
+                <select class="form-select" id="asientoSeleccionadoCurso${curso.ID}">
+                ${disposicionSillas.map(fila =>
+                  html`
+                      ${fila.map(asiento =>
+                        html`
+                        <option value="${asiento}">${asiento}</option>
+                        `
+                      )}
+                  `
+                )}
+                </select>
+              </div>
+              <div>
+                <button class="m-1 input-1 bg-success text-light p-2" @click="${(e)=>this.asignarAsiento(curso.ID)}">Asignar</button>
+              </div>
+                </div>
+            </div>
+        </div>
+    </div>
         `
         )}
     `;
@@ -241,6 +429,8 @@ export class wcCursosView extends LitElement {
       SALON: salon, 
     };
       this.cursos.push(nuevoCurso)
+
+      this.asientosPorCurso[nuevoCurso.ID] = this.generarDisposicionSillas(6, 5);
       this.saveCursosToLocalStorage(this.cursos);
       this.requestUpdate();
       this.limpiarFormulario();

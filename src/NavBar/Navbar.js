@@ -11,6 +11,7 @@ export class NavBar extends LitElement {
             selectedView: { type: String },
             profesores:{type: Array},
             salones:{type: Array},
+            Estudiantes:{type: Array},
             cursos:{type: Array},
         };
     }
@@ -61,7 +62,7 @@ export class NavBar extends LitElement {
             case 'salones':
                 return html`<salones-views .profesores="${this.profesores}" .salones="${this.salones}" .cursos="${this.cursos}"></salones-views>`;
             case 'cursos':
-                return html`<cursos-views .profesores="${this.profesores}" .salones="${this.salones}" .cursos="${this.cursos}"></cursos-views>`;
+                return html`<cursos-views .profesores="${this.profesores}" .salones="${this.salones}" .cursos="${this.cursos}" .Estudiantes="${this.Estudiantes}"></cursos-views>`;
             case 'profesores':
             default:
                 return html`<wc-mainprofesoresview .profesores="${this.profesores}" .salones="${this.salones}" .cursos="${this.cursos}"></wc-mainprofesoresview>`;

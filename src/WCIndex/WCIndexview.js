@@ -17,15 +17,72 @@ export class WCIndexview extends LitElement{
                 nombreE: 'Joel Sebastian',
                 documentoE: '1029141439',
                 edadE: '18',
-                cursoE: '11',
+                cursoE: '1',
                 discapacidadE: 'Ninguna',
                 acudienteE: 'N.A.R.P',
                 epsE: 'Sanitas',
                 direccionE: 'Calle 45 Sur 17-32',
                 certifEstudioE: 'si',
                 telefonoE: '2343232421',
-                jornada: 'Diurna'
-                }
+                jornada: 'Diurna',
+                asignado:0
+                },
+                {
+                    nombreE: 'Pedro',
+                    documentoE: '1029141439',
+                    edadE: '18',
+                    cursoE: '2',
+                    discapacidadE: 'Ninguna',
+                    acudienteE: 'N.A.R.P',
+                    epsE: 'Sanitas',
+                    direccionE: 'Calle 45 Sur 17-32',
+                    certifEstudioE: 'si',
+                    telefonoE: '2343232421',
+                    jornada: 'Diurna',
+                    asignado:0
+                    },
+                {
+                    nombreE: 'Hector',
+                    documentoE: '1029141439',
+                    edadE: '18',
+                    cursoE: '3',
+                    discapacidadE: 'Ninguna',
+                    acudienteE: 'N.A.R.P',
+                    epsE: 'Sanitas',
+                    direccionE: 'Calle 45 Sur 17-32',
+                    certifEstudioE: 'si',
+                    telefonoE: '2343232421',
+                    jornada: 'Diurna',
+                    asignado:0
+                    },
+                {
+                    nombreE: 'paola',
+                    documentoE: '1029141439',
+                    edadE: '18',
+                    cursoE: '2',
+                    discapacidadE: 'Ninguna',
+                    acudienteE: 'N.A.R.P',
+                    epsE: 'Sanitas',
+                    direccionE: 'Calle 45 Sur 17-32',
+                    certifEstudioE: 'si',
+                    telefonoE: '2343232421',
+                    jornada: 'Diurna',
+                    asignado:0
+                    },
+                {
+                    nombreE: 'Lina',
+                    documentoE: '1029141439',
+                    edadE: '18',
+                    cursoE: '3',
+                    discapacidadE: 'Ninguna',
+                    acudienteE: 'N.A.R.P',
+                    epsE: 'Sanitas',
+                    direccionE: 'Calle 45 Sur 17-32',
+                    certifEstudioE: 'si',
+                    telefonoE: '2343232421',
+                    jornada: 'Diurna',
+                    asignado:0
+                    }
             ],
             Profesores:[
                 {
@@ -168,7 +225,7 @@ export class WCIndexview extends LitElement{
 
     mostrarLogin(x){
         if(x){
-            this.main = html `<wc-loginview class="w-100 h-100" .salones="${this.arreglos.salones}" .profesores="${this.arreglos.Profesores}" .cursos="${this.arreglos.cursos}"></wc-loginview>`
+            this.main = html `<wc-loginview class="w-100 h-100" .salones="${this.arreglos.salones}" .profesores="${this.arreglos.Profesores}" .cursos="${this.arreglos.cursos}" .Estudiantes="${this.arreglos.Estudiantes}"></wc-loginview>`
         }else{
             this.main=html``
         }

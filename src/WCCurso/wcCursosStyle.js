@@ -104,5 +104,7 @@ export default css`
 .bg-blue1:hover{
   background-color:gray;
 }
-
+.w-5{
+  width:5%
+}
 `;
