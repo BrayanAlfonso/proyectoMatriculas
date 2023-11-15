@@ -107,4 +107,7 @@ export default css`
 .w-5{
   width:5%
 }
+.w-15{
+  width:15%;
+}
 `;

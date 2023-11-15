@@ -29,7 +29,7 @@ export class WCIndexview extends LitElement{
                 },
                 {
                     nombreE: 'Pedro',
-                    documentoE: '1029141439',
+                    documentoE: '21212112',
                     edadE: '18',
                     cursoE: '2',
                     discapacidadE: 'Ninguna',
@@ -43,7 +43,7 @@ export class WCIndexview extends LitElement{
                     },
                 {
                     nombreE: 'Hector',
-                    documentoE: '1029141439',
+                    documentoE: '142151145',
                     edadE: '18',
                     cursoE: '3',
                     discapacidadE: 'Ninguna',
@@ -57,7 +57,7 @@ export class WCIndexview extends LitElement{
                     },
                 {
                     nombreE: 'paola',
-                    documentoE: '1029141439',
+                    documentoE: '515151515',
                     edadE: '18',
                     cursoE: '2',
                     discapacidadE: 'Ninguna',
@@ -71,7 +71,7 @@ export class WCIndexview extends LitElement{
                     },
                 {
                     nombreE: 'Lina',
-                    documentoE: '1029141439',
+                    documentoE: '51515151',
                     edadE: '18',
                     cursoE: '3',
                     discapacidadE: 'Ninguna',

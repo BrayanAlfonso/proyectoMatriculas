@@ -360,10 +360,10 @@ export class wcCursosView extends LitElement {
                 <div class="cinema-seats d-flex">
                 ${disposicionSillas2.map(fila =>
                   html`
-                    <div class="row">
+                    <div class="row ">
                       ${fila.map(asiento =>
                         html`
-                          <div class="seat p-2" id="asiento${asiento}${curso.ID}">${asiento}</div>
+                          <div class="seat p-2 w-75" id="asiento${asiento}${curso.ID}">${asiento}</div>
                         `
                       )}
                     </div>

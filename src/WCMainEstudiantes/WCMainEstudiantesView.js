@@ -58,8 +58,9 @@ export class WCMainEstudiantesView extends LitElement{
 
     registrarEstudiante() {
         console.log("entro")
-        if (this.nombreE && this.direccionE && this.edadE && this.cursoE && this.epsE && this.direccionE && this.certifEstudioE && this.telefonoE ) {
+        if (this.nombreE && this.direccionE && this.edadE && this.epsE && this.direccionE && this.certifEstudioE && this.telefonoE ) {
             
+            let curso = this.shadowRoot.getElementById("cursoE").value
             let discapacidad = this.shadowRoot.getElementById("discapacidadE").value
             let acudiente = this.shadowRoot.getElementById("acudienteE").value
             let jornada = this.shadowRoot.getElementById("jornada").value
@@ -68,7 +69,7 @@ export class WCMainEstudiantesView extends LitElement{
                 nombreE: this.nombreE,
                 documentoE: this.documentoE,
                 edadE: this.edadE,
-                cursoE: this.cursoE,
+                cursoE: curso,
                 discapacidadE: discapacidad,
                 acudienteE: acudiente,
                 epsE: this.epsE,
@@ -232,7 +233,12 @@ export class WCMainEstudiantesView extends LitElement{
                                             </div>
                                             <div class="mb-3">
                                                 <label for="cursoE" class="form-label">Curso</label>
-                                                <input type="text" class="form-control" id="cursoE" .value="${this.cursoE}" @input="${(e) => (this.cursoE = e.target.value)}">
+                                                <select class="form-select" id="cursoE" .value="${this.cursoE}">
+                                                ${this.cursos.map(curso=>html`
+                                                <option value="${curso.ID}">${curso.ID}</option>
+                                                `)}
+                                                <select>
+                                                
                                             </div>
                                             <div class="mb-3">
                                                 <label for="discapacidadE" class="form-label">Discapacidad</label>
@@ -343,7 +349,12 @@ export class WCMainEstudiantesView extends LitElement{
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="cursoE" class="form-label">Curso</label>
-                                                                <input type="text" class="form-control" id="cursoEActualizar${Estudiante.documentoE}" .value="${Estudiante.cursoE}">
+                                                                <select class="form-select" id="cursoEActualizar${Estudiante.documentoE}" .value="${Estudiante.cursoE}">
+                                                                    ${this.cursos.map(curso=>html`
+                                                                    <option value="${curso.ID}">${curso.ID}</option>
+                                                                    `)}
+                                                                </select>
+                                                                
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="discapacidadE" class="form-label">Discapacidad</label>
